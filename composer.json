@@ -1,0 +1,11 @@
+{
+    "name": "kias/data-object-mapper",
+    "require": {
+        "phpunit/phpunit": "8.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doom\\": "src"
+        }
+    }
+}
