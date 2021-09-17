@@ -2,37 +2,44 @@
 
 namespace Doom\Arguments;
 
-use Doom\Field;
+use Doom\Validators\BooleanValidator;
+use Doom\Validators\EmailValidator;
+use Doom\Validators\FloatValidator;
+use Doom\Validators\IntValidator;
+use Doom\Validators\NumericValidator;
+use Doom\Validators\PropertyValidator;
+use Doom\Validators\StrictedNumericValidator;
+use Doom\Validators\StringValidator;
 
 class Type extends ArgumentImpl {
-    function apply(Field $field) : void {
+    function apply(PropertyValidator $field) : void {
         /**
          * TODO import classes
          */
         switch ($this->param) {
             case "int":
             case "integer":
-                $field->setValidator(new IntValidator);
+                $field->addValidator(new IntValidator);
                 break;
             case "bool":
             case "boolean":
-                $field->setValidator(new BooleanValidator);
+                $field->addValidator(new BooleanValidator);
                 break;
             case "string":
-                $field->setValidator(new StringValidator);
+                $field->addValidator(new StringValidator);
                 break;
             case "numeric":
-                $field->setValidator(new StrictedNumericValidator);
+                $field->addValidator(new StrictedNumericValidator);
                 break;
             case "string, numeric":
             case "numeric, string":
-                $field->setValidator(new NumericValidator);
+                $field->addValidator(new NumericValidator);
                 break;
             case "email":
-                $field->setValidator(new EmailValidator);
+                $field->addValidator(new EmailValidator);
                 break;
             case "float":
-                $field->setValidator(new FloatValidator);
+                $field->addValidator(new FloatValidator);
                 break;
             default:
                 // TODO create exception

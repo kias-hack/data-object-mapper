@@ -5,7 +5,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Doom\\": "src"
+            "Doom\\": "src",
+            "Test\\": "tests/Test"
         }
     }
 }

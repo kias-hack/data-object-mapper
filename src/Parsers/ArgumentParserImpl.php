@@ -20,6 +20,7 @@ class ArgumentParserImpl implements ArgumentParser {
     }
 
     function parse($doc) {
+        $this->arguments = [];
         $lines = explode("\n", $doc);
 
         foreach ($lines as $key => $line){

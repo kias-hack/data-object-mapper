@@ -2,10 +2,10 @@
 
 namespace Doom\Arguments;
 
-use Doom\Field;
+use Doom\Validators\PropertyValidator;
 
 class Alias extends ArgumentImpl {
-    function apply(Field $field) : void{
+    function apply(PropertyValidator $field) : void{
         $field->setAlias($this->param);
     }
 }

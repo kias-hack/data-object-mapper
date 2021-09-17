@@ -2,8 +2,8 @@
 
 namespace Doom\Arguments;
 
-use Doom\Field;
+use Doom\Validators\PropertyValidator;
 
 interface Argument {
-    function apply(Field $field) : void;
+    function apply(PropertyValidator $field) : void;
 }
