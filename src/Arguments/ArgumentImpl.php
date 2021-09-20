@@ -2,6 +2,7 @@
 
 namespace Doom\Arguments;
 
+use Doom\Decorators\PropertyDecorator;
 use Doom\Validators\PropertyValidator;
 
 abstract class ArgumentImpl implements Argument {
@@ -14,5 +15,5 @@ abstract class ArgumentImpl implements Argument {
         $this->param = $param;
     }
 
-    abstract function apply(PropertyValidator $field) : void;
+    abstract function apply(PropertyDecorator $field) : void;
 }

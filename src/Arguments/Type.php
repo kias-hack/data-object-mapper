@@ -2,24 +2,27 @@
 
 namespace Doom\Arguments;
 
+use Doom\Decorators\PropertyDecorator;
+use Doom\Model;
+use Doom\Mutators\ModelDataMutator;
+use Doom\Validators\ArrayValidator;
 use Doom\Validators\BooleanValidator;
 use Doom\Validators\EmailValidator;
 use Doom\Validators\FloatValidator;
 use Doom\Validators\IntValidator;
 use Doom\Validators\NumericValidator;
-use Doom\Validators\PropertyValidator;
 use Doom\Validators\StrictedNumericValidator;
 use Doom\Validators\StringValidator;
 
 class Type extends ArgumentImpl {
-    function apply(PropertyValidator $field) : void {
-        /**
-         * TODO import classes
-         */
+    function apply(PropertyDecorator $field) : void {
         switch ($this->param) {
             case "int":
             case "integer":
                 $field->addValidator(new IntValidator);
+                break;
+            case "array":
+                $field->addValidator(new ArrayValidator);
                 break;
             case "bool":
             case "boolean":
@@ -42,8 +45,14 @@ class Type extends ArgumentImpl {
                 $field->addValidator(new FloatValidator);
                 break;
             default:
-                // TODO create exception
-                throw new \Exception("unknown type" . $this->param);
+                if(!$this->isExtendsModelClass($this->param))
+                    throw new \Exception("unknown type " . $this->param); // TODO создать исключение
+
+                $field->addMutator(new ModelDataMutator($this->param));
         }
+    }
+
+    protected function isExtendsModelClass(string $className){
+        return class_exists($this->param) && in_array(Model::class, array_values(class_parents($className)));
     }
 }
