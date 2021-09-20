@@ -3,12 +3,18 @@
 namespace Doom;
 
 use Doom\Arguments\Argument;
-use Doom\Decorators\PropertyValidatorDecorator;
+use Doom\Decorators\PropertyModelDecorator;
 use Doom\Factories\ArgumentParserFactoryImpl;
 use Doom\Reflection\ReflectionRepresentation;
 
 class Model
 {
+    /**
+     * @param $raw
+     * @throws \Exception
+     *
+     * TODO перенести построение объекта из конструктора
+     */
     public function __construct($raw)
     {
         $representation = new ReflectionRepresentation(get_called_class());
@@ -18,7 +24,7 @@ class Model
         $properties = $representation->getProperties();
 
         foreach ($properties as &$property){
-            $property = new PropertyValidatorDecorator($property);
+            $property = new PropertyModelDecorator($property);
 
             $docComment = $property->getDocComment();
 
@@ -35,11 +41,11 @@ class Model
         $propertyMap = $this->buildPropertyMap($properties);
 
         /**
-         * @var $property PropertyValidatorDecorator
+         * @var $property PropertyModelDecorator
          */
         unset($property);
         foreach ($propertyMap as $key => $property) {
-            $value = $raw[$key]?: null;
+            $value = in_array($key, array_keys($raw)) ? $raw[$key] : null;
 
             try {
                 if(!$property->isPublic())
@@ -56,7 +62,7 @@ class Model
         $map = [];
 
         /**
-         * @var $property PropertyValidatorDecorator
+         * @var $property PropertyModelDecorator
          */
         foreach ($properties as $property){
             if($property->hasAlias())
@@ -70,7 +76,7 @@ class Model
 
     protected function setNonAccessible($object, $property, $value) {
         /**
-         * @var $property PropertyValidatorDecorator
+         * @var $property PropertyModelDecorator
          */
 
         $property->setAccessible(true);
@@ -80,7 +86,7 @@ class Model
 
     protected function setAccessible($object, $property, $value) {
         /**
-         * @var $property PropertyValidatorDecorator
+         * @var $property PropertyModelDecorator
          */
 
         $property->setValue($object, $value);
