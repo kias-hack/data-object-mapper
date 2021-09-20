@@ -57,4 +57,34 @@ class ArgumentParserImlTest extends TestCase
 
         $argParser->parse($phpdocstring);
     }
+
+    public function testParseWithSpaces()
+    {
+        $phpdocstring = "
+        /**
+        * @Required ()
+        * @Type (int)
+        */
+        ";
+
+        $argFactoryMock = $this->createMock(ArgumentFactoryImpl::class);
+
+        $argFactoryMock
+            ->expects($this->at(0))
+            ->method("create")
+            ->with($this->equalTo("Required"), $this->equalTo(""))
+            ->willReturn(new Required())
+        ;
+
+        $argFactoryMock
+            ->expects($this->at(1))
+            ->method("create")
+            ->with($this->equalTo("Type"), $this->equalTo("int"))
+            ->willReturn(new Type("int"))
+        ;
+
+        $argParser = new ArgumentParserImpl($argFactoryMock);
+
+        $argParser->parse($phpdocstring);
+    }
 }

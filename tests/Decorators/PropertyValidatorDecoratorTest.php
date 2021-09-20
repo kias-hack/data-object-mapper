@@ -2,7 +2,7 @@
 
 namespace Decorators;
 
-use Doom\Decorators\PropertyValidatorDecorator;
+use Doom\Decorators\PropertyModelDecorator;
 use Doom\Validators\IntValidator;
 use Doom\Validators\NotEmptyValidator;
 use PHPUnit\Framework\TestCase;
@@ -20,7 +20,7 @@ class PropertyValidatorDecoratorTest extends TestCase
 
         $property = (new \ReflectionClass(TestModel::class))->getProperty("withoutType");
 
-        $this->propertyDecorator = new PropertyValidatorDecorator($property);
+        $this->propertyDecorator = new PropertyModelDecorator($property);
     }
 
     public function testSuccessSetValue()
