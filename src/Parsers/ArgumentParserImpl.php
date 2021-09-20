@@ -41,12 +41,12 @@ class ArgumentParserImpl implements ArgumentParser {
     protected function processLine($line) {
         $parts = explode("(", $line);
 
-        $argumentName = $parts[0];
+        $argumentName = trim($parts[0]);
 
         if(count($parts) == 1)
             $parts[1] = "";
 
-        $argumentValue = $parts[1];
+        $argumentValue = trim($parts[1]);
 
         $this->buildArgument($argumentName, $argumentValue);
     }
